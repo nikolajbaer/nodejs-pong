@@ -1,0 +1,10 @@
+TODOs
+=====
+
+Now
+---
+* create basic paddle movement
+* create shared game.js object
+* create client side prediction
+* create opening chat room
+
