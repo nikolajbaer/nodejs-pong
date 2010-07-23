@@ -1,5 +1,5 @@
 var sys = require("sys"),
-    ws = require("./ws"),
+    ws = require("ws"),
     http = require('http');
 
 ws.createServer(function (websocket) {
@@ -12,8 +12,10 @@ ws.createServer(function (websocket) {
   }).addListener("data", function (data) { 
     // handle incoming data
     var incoming = JSON.parse(data);
-    var outgoing = {msg:"Thanks!"};
 
+    // TODO do something with this 
+    var outgoing = {msg:"Thanks!"};
+     
     sys.debug(data);
 
     // send data to client
@@ -27,8 +29,8 @@ ws.createServer(function (websocket) {
 
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    //TODO send index.html
+    //TODO send static files 
     res.end('Hello World\n');
-}).listen(8124, "127.0.0.1");
+}).listen(8124);
 
 console.log('Server running at http://127.0.0.1:8124/, socket at 8080');

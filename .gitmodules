@@ -2,3 +2,6 @@
     path = include/ws
     url = git://github.com/ncr/node.ws.js.git
 
+[submodule "includes/ws"]
+	path = includes/ws
+	url = git://github.com/ncr/node.ws.js.git
