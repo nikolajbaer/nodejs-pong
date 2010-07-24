@@ -2,9 +2,13 @@
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
-
+var ws = null;
 $(document).ready(function(){
-    // do something
+    if("WebSocket" in window){
+    }else{
+        $("#message").html('this browser does not support websockets. get <a href="http://www.google.com/chrome">one that does</a>');
+    }
+
 });
  
 </script>
@@ -19,9 +23,12 @@ $(document).ready(function(){
         margin: 50px auto;
         text-align: center;
     }
+    a {
+        color: #3FB076;
+    }
 </style>
 </head>
 <body>
-<div id="message">Hello World.</div>
+<div id="message">loading</div>
 </body>
 </html>
