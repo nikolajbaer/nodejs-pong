@@ -1,6 +1,11 @@
 var sys = require("sys"),
     ws = require("ws"),
-    http = require('http');
+    path = require("path"),
+    paperboy = require("paperboy"),
+    http = require('http'),
+    HTTP_PORT = 8001,
+    WS_PORT = 8002,
+    WEBROOT = path.join(path.dirname(__filename), 'webroot');
 
 ws.createServer(function (websocket) {
   websocket.addListener("connect", function (resource) { 
@@ -25,12 +30,27 @@ ws.createServer(function (websocket) {
     // emitted when server or client closes connection
     sys.debug("close");
   });
-}).listen(8080);
+}).listen(WS_PORT);
 
 http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    //TODO send static files 
-    res.end('Hello World\n');
-}).listen(8124);
+  paperboy
+    .deliver(WEBROOT, req, res)
+    .before(function() {
+      sys.puts('About to deliver: '+req.url);
+    })
+    .after(function() {
+      sys.puts('Delivered: '+req.url);
+    })
+    .error(function() {
+      sys.puts('Error delivering: '+req.url);
+    })
+    .otherwise(function() {
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.write('Sorry, no paper this morning!');
+      res.end();
+    });
+}).listen(HTTP_PORT);
 
-console.log('Server running at http://127.0.0.1:8124/, socket at 8080');
+console.log('Server running at on http://localhost:'+HTTP_PORT+" with web sockets on "+WS_PORT );
+
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export NODE_PATH=`pwd`/includes/ws/
+export NODE_PATH=`pwd`/includes/ws/:`pwd`/includes/paperboy/lib/
 
 node server.js
 
