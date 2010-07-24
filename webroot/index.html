@@ -1,34 +1,59 @@
 <html>
 <head>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-var ws = null;
-$(document).ready(function(){
-    if("WebSocket" in window){
-    }else{
-        $("#message").html('this browser does not support websockets. get <a href="http://www.google.com/chrome">one that does</a>');
-    }
-
-});
- 
-</script>
 <style type="text/css">
     body { 
         background-color: #111; 
         color: #64F5AA;
         font-family: "Courier"; 
         font-size: 12pt;
+        padding-top: 50px;
     }
-    #message {
-        margin: 50px auto;
-        text-align: center;
+    #log {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 100%;
+        height: 90%;
+        overflow: hidden;
     }
     a {
         color: #3FB076;
     }
 </style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+var NO_WS_MSG = 'this browser does not support websockets. get <a href="http://www.google.com/chrome">one that does</a>';
+var ws = null;
+var messages = [];
+
+function log(msg){
+    $("#log").append("<p>"+msg+"</p>");
+    messages.push(msg);
+}
+
+$(document).ready(function(){
+    if("WebSocket" in window){
+        // TODO serve from same port
+        var ws = new WebSocket("ws://localhost:8002/");
+        ws.onopen = function(){
+            var msg="hello";
+            ws.send(JSON.stringify({message:msg}));
+            log(msg);
+        } 
+        ws.onmessage = function(evt){ 
+            var msg = JSON.parse(evt.data); 
+            log(msg.msg);
+        }
+    }else{
+        log("no websocket support.");
+    }
+
+});
+ 
+</script>
 </head>
 <body>
-<div id="message">loading</div>
+<div id="log">initializing</div>
 </body>
 </html>

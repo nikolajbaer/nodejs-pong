@@ -24,7 +24,7 @@ ws.createServer(function (websocket) {
     sys.debug(data);
 
     // send data to client
-    websocket.write(JSON.strinigfy(outgoing));
+    websocket.write(JSON.stringify(outgoing));
 
   }).addListener("close", function () { 
     // emitted when server or client closes connection
