@@ -35,7 +35,7 @@ function log(msg){
 $(document).ready(function(){
     if("WebSocket" in window){
         // TODO serve from same port
-        var ws = new WebSocket("ws://localhost:8002/");
+        ws = new WebSocket("ws://localhost:8002/");
         ws.onopen = function(){
             var msg="hello";
             ws.send(JSON.stringify({message:msg}));
